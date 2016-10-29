@@ -3,7 +3,7 @@ package casino;
 public class Bank {
     
     private static Bank inst;
-    private int state = 100000;
+    private int state = 1000000;
     
     //**
     //Wykorzystanie Singletona
@@ -18,12 +18,12 @@ public class Bank {
         return state;
     }
     
-    public void addMoney(int x) {
-        state += x;
+    public void addMoney(int aMoney) {
+        state += aMoney;
     }
     
-    public void substractMoney(int x) {
-        state -= x;
+    public void substractMoney(int aMoney) {
+        state -= aMoney;
     }
     
 }

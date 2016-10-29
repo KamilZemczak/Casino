@@ -17,23 +17,23 @@ public class Gamer {
     /**
      * @return the state
      */
-    public static int getState() {
-        return state;
+    public int getState() {
+        return this.state;
     }
 
     /**
      * @param aState the state to set
      */
-    public static void setState(int aState) {
-        state = aState;
+    public void setState(int aState) {
+        this.state = aState;
     }
     
-    public void addMoney(int x) {
-        state += x;
+    public void addMoney(int aState) {
+        state += aState;
     }
     
-    public void substractMoney(int x) {
-        state -= x;
+    public void substractMoney(int aState) {
+        state -= aState;
     }
     
     

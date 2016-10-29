@@ -11,13 +11,13 @@ public class CasinoGame {
         //**
         //Wiadomość informacyjna
         //**
-        System.out.println("KRÓTKI SYMULATOR KASYNA W RAMACH PROJEKTU NA NJPO2");
+        System.out.println("KRÓTKI SYMULATOR KASYNA W RAMACH PROJEKTU NA NJPO2.");
         
         //**
         //Sprawdzenie pieniędzy od gracza
         //**
         do {
-            System.out.print("Podaj dokładną wartość Twoich pieniędzy: ");
+            System.out.print("Podaj dokładną wartość Twoich pieniędzy:");
             money = input.nextInt();
             if (money < 40) System.out.println("Najtansza gra kosztuje 40$, musisz isc pozyczyc od kogos pieniadze!");
         } while (money < 40);
@@ -29,10 +29,10 @@ public class CasinoGame {
         //**
         do {
             do {
-                System.out.println("Naciśnij klawisz 'C' by ujrzeć ile masz pieniędzy.");
-                System.out.println("Naciśnij klawisz 'B' by grać w BlackJacka ($80).");
-                System.out.println("Naciśnij klawisz 'J' by grać w JednorekiegoBandyte ($40).");
-                System.out.println("Naciśnij klawisz 'W' by wyjść z gry.");
+                System.out.println("Nacisnij klawisz 'C' by ujrzec ile masz pieniedzy.");
+                System.out.println("Nacisnij klawisz 'B' by grać w BlackJacka ($80).");
+                System.out.println("Nacisnij klawisz 'J' by grać w JednorekiegoBandyte ($40).");
+                System.out.println("Nacisnij klawisz 'W' by wyjsc z gry.");
                 decision = input.next().toUpperCase();
             } while (!decision.equals("W")&&!decision.equals("B")&&!decision.equals("J")&&!decision.equals("C"));
             if (decision.equals("B"))
@@ -41,24 +41,24 @@ public class CasinoGame {
             if (decision.equals("J"))
                 if (Gamer.getInst().getState()>=40) JednorekiBandyta.inst().gameJednorekiBandyta();
                 else System.out.println("Brak wystarczajacych funduszy na gre w JednorekiegoBandyte");
-            if (decision.equals("S"))
+            if (decision.equals("C"))
             {
                 System.out.println("Stan konta:"+Gamer.getInst().getState());
             }
             
-        } while (Gamer.getInst().getState()>40 && !decision.equals("Q"));
+        } while (Gamer.getInst().getState()>40 && !decision.equals("W"));
         
         
         //**
         //Końcowe informacje dla użytkownika
         //**
-        //System.out.println("Rozegranych gier w BlackJacka:" +BlackJack.inst().getAll());
-        //if(BlackJack.inst().getGames() > 0) System.out.printf("Stosunek zwyciestw: %3.5f\n",BlackJack.inst().getRatio());
+        System.out.println("Rozegranych gier w BlackJacka:" +BlackJack.inst().getGames());
+        if(BlackJack.inst().getGames() > 0) System.out.printf("Stosunek zwyciestw: %3.5f\n",BlackJack.inst().getBilance());
         
         System.out.println("Rozegranych gier w JednorekiegoBandyte:" +JednorekiBandyta.inst().getGames());
-        if(JednorekiBandyta.inst().getGames() > 0) System.out.printf("Stosunek zwyciestw: %3.5f\n",JednorekiBandyta.inst().getRatio());
+        if(JednorekiBandyta.inst().getGames() > 0) System.out.printf("Stosunek zwyciestw: %3.5f\n",JednorekiBandyta.inst().getBilance());
         
-        System.out.println("Bilans: "+(100000-Bank.getInst().getMoney()));
+        System.out.println("Bilans: "+(1000000-Bank.getInst().getMoney()));
         
         }
     }
