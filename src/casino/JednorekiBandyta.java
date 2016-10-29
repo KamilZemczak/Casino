@@ -22,7 +22,6 @@ class JednorekiBandyta {
     
     Bank.getInst().addMoney(40);
     Gamer.getInst().substractMoney(40);
-    Casino.cls();
     
     //**
     //Wnętrze gry

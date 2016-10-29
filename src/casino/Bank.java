@@ -5,6 +5,9 @@ public class Bank {
     private static Bank inst;
     private int state = 100000;
     
+    //**
+    //Wykorzystanie Singletona
+    //**
     public static Bank getInst() {
         if(inst == null)
             inst = new Bank();

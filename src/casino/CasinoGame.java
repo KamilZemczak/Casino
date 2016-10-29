@@ -5,21 +5,28 @@ import java.util.Scanner;
 public class CasinoGame {
     public static Scanner input = new Scanner(System.in);
     String decision;
-    int cash;
+    int money;
     
     public CasinoGame() {
         //**
         //Wiadomość informacyjna
         //**
         System.out.println("KRÓTKI SYMULATOR KASYNA W RAMACH PROJEKTU NA NJPO2");
+        
+        //**
+        //Sprawdzenie pieniędzy od gracza
+        //**
         do {
             System.out.print("Podaj dokładną wartość Twoich pieniędzy: ");
-            cash = input.nextInt();
-            if (cash < 40) System.out.println("Najtansza gra kosztuje 40$, musisz isc pozyczyc od kogos pieniadze!");
-        } while (cash < 40);
+            money = input.nextInt();
+            if (money < 40) System.out.println("Najtansza gra kosztuje 40$, musisz isc pozyczyc od kogos pieniadze!");
+        } while (money < 40);
         
-        Gamer.getInst().setState(cash);
+        Gamer.getInst().setState(money);
         
+        //**
+        //Menu
+        //**
         do {
             do {
                 System.out.println("Naciśnij klawisz 'C' by ujrzeć ile masz pieniędzy.");
@@ -39,7 +46,19 @@ public class CasinoGame {
                 System.out.println("Stan konta:"+Gamer.getInst().getState());
             }
             
-        } while (Gamer.getInst().getState()>40 && !dec.equals("Q"));
+        } while (Gamer.getInst().getState()>40 && !decision.equals("Q"));
+        
+        
+        //**
+        //Końcowe informacje dla użytkownika
+        //**
+        System.out.println("Rozegranych gier w BlackJacka:" +BlackJack.inst().getAll());
+        if(BlackJack.inst().getAll() > 0) System.out.printf("Stosunek zwyciestw: %3.5f\n",BlackJack.inst().getRatio());
+        
+        System.out.println("Rozegranych gier w JednorekiegoBandyte:" +JednorekiBandyta.inst().getAll());
+        if(JednorekiBandyta.inst().getAll() > 0) System.out.printf("Stosunek zwyciestw: %3.5f\n",JednorekiBandyta.inst().getRatio());
+        
+        System.out.println("Bilans: "+(100000-Bank.getInst().getMoney()));
         
         }
     }

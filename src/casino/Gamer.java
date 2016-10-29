@@ -5,6 +5,9 @@ public class Gamer {
     private static Gamer inst;
     private static int state;
     
+    //**
+    //Wykorzystanie Singletona
+    //**
     public static Gamer getInst() {
         if(inst == null)
             inst = new Gamer();
