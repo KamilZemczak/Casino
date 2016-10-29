@@ -11,9 +11,9 @@ public class BlackJack {
     private static boolean bidup = true;
     private static Scanner input = new Scanner (System.in);
     private static Random rand = new Random();
-    private static List<Integer> deckCards = new ArrayList<Integer>();
-    private static List<Integer> gamerCards = new ArrayList<Integer>();
-    private static List<Integer> croupierCards = new ArrayList<Integer>();
+    private static final List<Integer> deckCards = new ArrayList<Integer>();
+    private static final List<Integer> gamerCards = new ArrayList<Integer>();
+    private static final List<Integer> croupierCards = new ArrayList<Integer>();
     private static int games = 0;
     private static int won = 0;
     
@@ -24,7 +24,8 @@ public class BlackJack {
         if(blackjack == null) {
             blackjack = new BlackJack();
         }
-        return blackjack; }
+        return blackjack; 
+    }
     
     //**
     //Stosunek wygranych
@@ -53,20 +54,22 @@ public class BlackJack {
     //Gra
     //**
         lestStart();
-        score(gamer(),croupier());
+        letsStop(gamer(),croupier());
     }
     
     public void lestStart() {
     //**
     //Rozdanie
     //**
-        for(int i=0; i < 4; i++) {
-            for(int j=2; j<=11; j++) {
+         for(int i=0; i<4; i++) {
+             for(int j=2;j<=11;j++) {
                 deckCards.add(j);
-                if (j==10) {
-                    for(int k=0; k < 3; k++) deckCards.add(j);
+                if (j==10) { 
+                    for(int k=0;k<3;k++) deckCards.add(j); 
                 }
             }
+        }
+
             gamerCards.clear();
             croupierCards.clear();
             bidup = false;
@@ -95,45 +98,48 @@ public class BlackJack {
             System.out.println("Nacisnij dowolny klawisz by kontynuowac.");
             Scanner input = new Scanner(System.in);
             input.nextLine();
-        }
     }        
-        //ruchy gracza        
-        //ruchy gracza
+    //**
+    //Ruchy gracza
+    //**
         public int gamer() {
             int part_sum = 0;
-            Sring dec = "O";
+            String decision = "O";
             //czyszczenie ekranu
             System.out.println("RUCHY GRACZA");
             
-            
             do {
                 part_sum = 0;
-                //wyswietleniekork
-                System.out.println("\n\n\nGracz ma te karty:");
+
+    //**
+    //Wyświetlenie kart gracza
+    //**
+                System.out.println("\nGracz ma te karty:");
                     for(int x: gamerCards) System.out.print(" "+x+" ");
                     System.out.println("\n");
                     
-                    //suma kart
+    //**
+    //Wyświetlenie sumy kart
+    //**
                     for(int x : gamerCards)
-                        part_sum+=x;
-                    System.out.println("Suma kart to "+part_sum);
+                        part_sum += x;
+                    System.out.println("Suma kart to:" +part_sum);
                     
                     if(part_sum == 21) {
-                        System.out.println("Gracz nie ma juz ruchow"); break; 
+                        System.out.println("Gracz nie ma juz ruchow."); break; 
                     } else if(part_sum > 21&&gamerCards.contains(11)) ace();
                     else if (part_sum > 21) {
                         System.out.println("Gracz nie ma juz dostepnych ruchow"); break; 
                     } else {
                         do {
-                            System.out.println("Prosze wybrac cos:");
-                            System.out.println("P - czekaj");
-                            System.out.println("H - dobierz kartke")
+                            System.out.println("P - czekaj.");
+                            System.out.println("K - wez sobie karte");
                                     if(Gamer.getInst().getState()>80) System.out.println("B - podbij stawke");
                                     decision = input.next().toUpperCase();
-                        } while(!decision.equals("P")&&!decision.equals("H")&&!.decision.equaals("B"));
+                        } while(!decision.equals("P")&&!decision.equals("H")&&!decision.equals("B"));
                         
                         if(decision.equals("P")) break;
-                        if(decision.equals("H")) hit(gamerCards);
+                        if(decision.equals("K")) hit(gamerCards);
                         if(decision.equals("B")) bid();
                     }
                     
@@ -141,16 +147,22 @@ public class BlackJack {
             return part_sum;
         }
         
+    //**
+    //Podbicie stawki
+    //**
         public void bid() {
             if (bidup == false) {
-                System.out.println("\nZ konta zostaje pobrane $60, ktore zwieksza stawke");
+                System.out.println("\nZ konta zostaje pobrane $80, ktore zwieksza stawke");
                 Bank.getInst().addMoney(80);
-                Gamer.getInst().substractMoney(60);
+                Gamer.getInst().substractMoney(80);
                 bidup = true;
-            } else System.out.println("\nJuz raz podwoiles stawke - nie mozesz tego zrobic ponownie.");
+            } else System.out.println("\nDwa razy nie mozesz podbijac stawek.");
                 
         }
         
+    //**
+    //Implementacja krupiera
+    //**       
         public int croupier() {
             int part_sum;
             boolean var = false;
@@ -175,58 +187,64 @@ public class BlackJack {
         } while(var == false);
             
             return part_sum;
-            
+        }  
+    //**
+    //Implementacja metody dodającą dodatkową karte do krupiera albo gracza
+    //**              
         public void hit(List<Integer> name) {
             int index = rand.nextInt(deckCards.size());
             name.add(deckCards.get(index));
             deckCards.remove(index);
         }
         
+    //**
+    //Zmieniająca wartość ace do jednego
+    //**    
         public void ace() {
-            System.out.println()("\n\nSuma kart jest wieksza od 21, ale w kartach gracza znajduje sie as\n"
-                                 +"Jego wartosc zmienila sie na 1...");
+            System.out.println("\n\nSuma kart jest wieksza od 21, ale w kartach gracza znajduje sie as i jego wartosc zmienila sie na 1...");
             gamerCards.set(gamerCards.lastIndexOf(11), 1);
-            System.out.println("nacisnij aby kontynowac");
+            System.out.println("Nacisnij dowolny klawisz by kontynuowac.");
+            Scanner input = new Scanner(System.in);
             input.nextLine();
                                  
         }
         
-        public void score(int gamer, int croupier) {
-            System.out.printf("  WYNIK GRACZA: %15d\n", gamer);
-            System.out.printf("WYNIK KRUPIERA: %15d\n\n", croupier);
+    //**
+    //Sumuje
+    //**       
+        public void letsStop(int gamer, int croupier) {
+            System.out.printf("Wynik gracza: %15d\n", gamer);
+            System.out.printf("Wynik krupiera: %15d\n\n", croupier);
             if (gamer > 21)
                 if (croupier > 21) System.out.println("Nikt nie wygral.");
                 else System.out.println("Gracz przegral");
             else if (gamer == 21) {
-                System.out.println("Gracz wygral blackjacka");
+                System.out.println("Gracz wygral Blackjacka");
                 if (bidup == true) {
-                    System.out.println("Dodatkowo gracz podwoil zaklad");
-                    System.out.println("Na konto gracza wyplaa 24");
+                    System.out.println("Dodatkowo gracz podwoil zaklad.");
+                    System.out.println("Na konto gracza wplywa $240.");
                     Bank.getInst().substractMoney(240);
                     Gamer.getInst().addMoney(240);
                     won++;
                 }
                 
                 else {
-                    System.out.println("Na konto gracza wplywa 120");
+                    System.out.println("Na konto gracza wplywa $120.");
                     Bank.getInst().substractMoney(120);
                     Gamer.getInst().addMoney(120);
                     won++;
                 }
             }
             else if ((21-gamer) < (21-croupier)) {
-                System.out.println("Gracz wygral z krupierem!!!");
-                System.out.println("Na konto gracza wplywa $100!!!");
+                System.out.println("Gracz wygral z krupierem.");
+                System.out.println("Na konto gracza wplywa $100.");
                 Bank.getInst().substractMoney(100);
                 Gamer.getInst().addMoney(100);
                 won++; 
             }
             else if ((21-gamer) == (21 - croupier)) {
-                System.out.println("REMIS");
-            } else System.out.println("gracz przegral");
-        
-        
-    }
-            
-    
+                System.out.println("Remis.");
+            } else System.out.println("Gracz przegral.");
+
+    }           
 }
