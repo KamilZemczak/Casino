@@ -52,11 +52,11 @@ public class CasinoGame {
         //**
         //Końcowe informacje dla użytkownika
         //**
-        System.out.println("Rozegranych gier w BlackJacka:" +BlackJack.inst().getAll());
-        if(BlackJack.inst().getAll() > 0) System.out.printf("Stosunek zwyciestw: %3.5f\n",BlackJack.inst().getRatio());
+        //System.out.println("Rozegranych gier w BlackJacka:" +BlackJack.inst().getAll());
+        //if(BlackJack.inst().getGames() > 0) System.out.printf("Stosunek zwyciestw: %3.5f\n",BlackJack.inst().getRatio());
         
-        System.out.println("Rozegranych gier w JednorekiegoBandyte:" +JednorekiBandyta.inst().getAll());
-        if(JednorekiBandyta.inst().getAll() > 0) System.out.printf("Stosunek zwyciestw: %3.5f\n",JednorekiBandyta.inst().getRatio());
+        System.out.println("Rozegranych gier w JednorekiegoBandyte:" +JednorekiBandyta.inst().getGames());
+        if(JednorekiBandyta.inst().getGames() > 0) System.out.printf("Stosunek zwyciestw: %3.5f\n",JednorekiBandyta.inst().getRatio());
         
         System.out.println("Bilans: "+(100000-Bank.getInst().getMoney()));
         

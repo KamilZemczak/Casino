@@ -5,23 +5,41 @@ import java.util.Scanner;
 
 class JednorekiBandyta {
     
-    private static JednorekiBandyta jednorekibandyta;
+    private static JednorekiBandyta jednorekiBandyta;
+    public static int games = 0;
+    public static int won = 0;
     private int a, b, c;
     
-    public static JednorekiBandyta inst() {
-        if(jednorekibandyta = null) {
-            jednorekibandyta = new JednorekiBandyta();
+    public static synchronized JednorekiBandyta inst() {
+        if(jednorekiBandyta = null) {
+            jednorekiBandyta = new JednorekiBandyta();
         }
-        return jednorekibandyta;
+        return jednorekiBandyta;
+    }
+    
+    
+    //**
+    //Stosunek wygranych
+    //**
+    public double getRatio() {
+        return won/games;
+    }
+    
+    //**
+    //Wartość rozegranych gier
+    //**
+    public int getGames() {
+        return games;
     }
     
     public void gameJednorekiBandyta() {
+        
     //**
     //Automatyczna zapłata za grę
     //**
-    
     Bank.getInst().addMoney(40);
     Gamer.getInst().substractMoney(40);
+    games++;
     
     //**
     //Wnętrze gry
@@ -41,7 +59,10 @@ class JednorekiBandyta {
 } else {
     System.out.println("Niestey przegrales, sprobuj jeszcze raz - na pewno sie uda.");
 }
-    
+    System.out.println("Nacisnij klawisz by kontynuowac");
+    Scanner input = new Scanner(System.in);
+    input.nextLine();
+   
 }
     
 }
