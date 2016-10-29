@@ -8,14 +8,16 @@ import java.util.Scanner;
 public class BlackJack {
     
     private static BlackJack blackjack;
-    private static boolean bidup = true;
+    private static boolean doubledouble = true;
     private static Scanner input = new Scanner (System.in);
     private static Random rand = new Random();
-    private static final List<Integer> deckCards = new ArrayList<Integer>();
-    private static final List<Integer> gamerCards = new ArrayList<Integer>();
-    private static final List<Integer> croupierCards = new ArrayList<Integer>();
     private static int games = 0;
     private static int won = 0;
+    
+    //Listy
+    private static final List<Integer> taliaKart = new ArrayList<Integer>();
+    private static final List<Integer> kartyGracza = new ArrayList<Integer>();
+    private static final List<Integer> kartyKrupiera = new ArrayList<Integer>();
     
     //**
     //Wykorzystanie Singletona
@@ -54,7 +56,7 @@ public class BlackJack {
     //Gra
     //**
         lestStart();
-        letsStop(gamer(),croupier());
+        letsStop(gracz(),krupier());
     }
     
     public void lestStart() {
@@ -63,38 +65,38 @@ public class BlackJack {
     //**
          for(int i=0; i<4; i++) {
              for(int j=2;j<=11;j++) {
-                deckCards.add(j);
+                taliaKart.add(j);
                 if (j==10) { 
-                    for(int k=0;k<3;k++) deckCards.add(j); 
+                    for(int k=0;k<3;k++) taliaKart.add(j); 
                 }
             }
         }
 
-            gamerCards.clear();
-            croupierCards.clear();
-            bidup = false;
+            kartyGracza.clear();
+            kartyKrupiera.clear();
+            doubledouble = false;
             
     //**
     //Rozdanie dwóch kart krupierowi i graczu
     //**
             int index;
             for(int i=0; i < 2; i++) {
-                index = rand.nextInt(deckCards.size());
-                gamerCards.add(deckCards.get(index));
-                deckCards.remove(index);
+                index = rand.nextInt(taliaKart.size());
+                kartyGracza.add(taliaKart.get(index));
+                taliaKart.remove(index);
             }
             
             for(int i=0; i < 2; i++) {
-                index = rand.nextInt(deckCards.size());
-                croupierCards.add(deckCards.get(index));
-                deckCards.remove(index);
+                index = rand.nextInt(taliaKart.size());
+                kartyKrupiera.add(taliaKart.get(index));
+                taliaKart.remove(index);
             }
             
     //**
     //Wyświetlenie informacji o kartach
     //**
-            System.out.printf("Karty gracza: %10d %10d\n", gamerCards.get(0), gamerCards.get(1));
-            System.out.printf("Karta krupiera: %10d", croupierCards.get(0));
+            System.out.printf("Karty gracza: %10d %10d\n", kartyGracza.get(0), kartyGracza.get(1));
+            System.out.printf("Karta krupiera: %10d", kartyKrupiera.get(0));
             System.out.println("Nacisnij dowolny klawisz by kontynuowac.");
             Scanner input = new Scanner(System.in);
             input.nextLine();
@@ -102,7 +104,7 @@ public class BlackJack {
     //**
     //Ruchy gracza
     //**
-        public int gamer() {
+        public int gracz() {
             int sum = 0;
             String decision = "O";
             //czyszczenie ekranu
@@ -115,19 +117,19 @@ public class BlackJack {
     //Wyświetlenie kart gracza
     //**
                 System.out.println("\nGracz ma te karty:");
-                    for(int x: gamerCards) System.out.print(" "+x+" ");
+                    for(int x: kartyGracza) System.out.print(" "+x+" ");
                     System.out.println("\n");
                     
     //**
     //Wyświetlenie sumy kart
     //**
-                    for(int x : gamerCards)
+                    for(int x : kartyGracza)
                         sum += x;
                     System.out.println("Suma kart to:" +sum);
                     
                     if(sum == 21) {
                         System.out.println("Gracz nie ma juz ruchow."); break; 
-                    } else if(sum > 21&&gamerCards.contains(11)) ace();
+                    } else if(sum > 21&&kartyGracza.contains(11)) ace();
                     else if (sum > 21) {
                         System.out.println("Gracz nie ma juz dostepnych ruchow"); break; 
                     } else {
@@ -139,8 +141,8 @@ public class BlackJack {
                         } while(!decision.equals("P")&&!decision.equals("K")&&!decision.equals("B"));
                         
                         if(decision.equals("P")) break;
-                        if(decision.equals("K")) hit(gamerCards);
-                        if(decision.equals("B")) bid();
+                        if(decision.equals("K")) hit(kartyGracza);
+                        if(decision.equals("B")) doubles();
                     }
                     
             } while(!decision.equals("P"));
@@ -151,20 +153,20 @@ public class BlackJack {
     //Implementacja metody dodającą dodatkową karte do krupiera albo gracza
     //**              
         public void hit(List<Integer> name) {
-            int index = rand.nextInt(deckCards.size());
-            name.add(deckCards.get(index));
-            deckCards.remove(index);
+            int index = rand.nextInt(taliaKart.size());
+            name.add(taliaKart.get(index));
+            taliaKart.remove(index);
         }
         
     //**
     //Podbicie stawki
     //**    
-        public void bid() {
-            if (bidup == false) {
+        public void doubles() {
+            if (doubledouble == false) {
                 System.out.println("\nZ konta zostaje pobrane $80, ktore zwieksza stawke");
                 Bank.getInst().addMoney(80);
                 Gamer.getInst().substractMoney(80);
-                bidup = true;
+                doubledouble = true;
             } else System.out.println("\nDwa razy nie mozesz podbijac stawek.");
                 
         }
@@ -173,8 +175,8 @@ public class BlackJack {
     //Zmieniająca wartość ace do jednego
     //**    
         public void ace() {
-            System.out.println("\n\nSuma kart jest wieksza od 21, ale w kartach gracza znajduje sie as i jego wartosc zmienila sie na 1...");
-            gamerCards.set(gamerCards.lastIndexOf(11), 1);
+            System.out.println("\nSuma kart wieksza od 23 no ale w kartach znajduje sie as i jego wartosc zmienila sie na 1...");
+            kartyGracza.set(kartyGracza.lastIndexOf(11), 1);
             System.out.println("Nacisnij dowolny klawisz by kontynuowac.");
             Scanner input = new Scanner(System.in);
             input.nextLine();
@@ -188,7 +190,7 @@ public class BlackJack {
     //2. Jeśli suma jest wieksze 18 i nie ma asa w kartach kurier czeka
     //3. Jeśli suma powyżej 23 i jest as, to as zmienia wartość na 1    
     //**       
-        public int croupier() {
+        public int krupier() {
             int sum;
             boolean var = false;
             System.out.println("Ruchy krupiera");
@@ -196,17 +198,17 @@ public class BlackJack {
             do {
             sum = 0;
             System.out.println("Krupier ma nastepujace karty:");
-            for(int x: croupierCards) System.out.print(" "+x+ " ");
-            for(int x: croupierCards)
+            for(int x: kartyKrupiera) System.out.print(" "+x+ " ");
+            for(int x: kartyKrupiera)
                 sum += x;
             System.out.println("Suma kart krupiera to: "+sum);
             if(sum > 18)
-                if (sum>23&&croupierCards.contains(11)) {
-                    croupierCards.set(croupierCards.lastIndexOf(11), 1);
+                if (sum>23&&kartyKrupiera.contains(11)) {
+                    kartyKrupiera.set(kartyKrupiera.lastIndexOf(11), 1);
                     System.out.println("W kartach byl as, a suma kart przekroczyla 23, wiec w miejsce asa wstawiamy wartosc 1");
                 } else var = true;
             else {
-                hit(croupierCards); System.out.println("Krupier dobiera karte"); 
+                hit(kartyKrupiera); System.out.println("Krupier dobiera karte"); 
             }
         } while(var == false);
             
@@ -224,7 +226,7 @@ public class BlackJack {
                 else System.out.println("Gracz przegral");
             else if (gamer == 23) {
                 System.out.println("Gracz wygral Blackjacka");
-                if (bidup == true) {
+                if (doubledouble == true) {
                     System.out.println("Dodatkowo gracz podwoil zaklad.");
                     System.out.println("Na konto gracza wplywa $240.");
                     Bank.getInst().substractMoney(240);
